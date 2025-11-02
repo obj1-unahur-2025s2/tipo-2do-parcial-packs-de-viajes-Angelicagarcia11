@@ -95,7 +95,6 @@ Si el pack es interancional, las condiciones son:
 
 - Testear las nuevas funcionalidades agregadas
 
----
 
 ### 4. Packs provinciales
 

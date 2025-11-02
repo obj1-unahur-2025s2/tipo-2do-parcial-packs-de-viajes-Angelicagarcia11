@@ -1,1 +1,87 @@
-// completar
+import packs.*
+
+
+describe "test de packs"{
+    const pepe= new Coordinador(cantidadDeViajes = 19, estaMotivado = false, experiencia = 0, rol= acompaniante)
+    const angie= new Coordinador(cantidadDeViajes = 24, estaMotivado = true, experiencia = 2, rol= guia)
+
+    const packNacional1 = new PackNacional(duracion=14, 
+    precioBase= 100000,
+    beneficios = #{},
+    coordinador = pepe,
+    provincia = "cordoba")
+
+     const packNacional2 = new PackNacional(duracion=12, 
+    precioBase= 120000,
+    beneficios = #{traslado, vip},
+    coordinador = angie,
+    provincia = "Misiones")
+
+
+ const packProvincial = new PackProvincial(duracion=14, 
+    precioBase= 285000,
+    beneficios = #{traslado, vip, seguro},
+    actividades=#{"oktoberfest", "calamuchita", "peñon del aguila", "tirolesa"},
+    coordinador = pepe,
+    provincia = "cordoba",
+    cantCiudadesAVisitar= 6)
+
+
+
+const traslado= new Beneficio(tipo= "traslado", costo=5000, estaVigente=true)
+
+const vip= new Beneficio(tipo= "acceso vip", costo=5000, estaVigente=true)
+
+const seguro= new Beneficio(tipo= "seguro", costo=5000, estaVigente=true)
+
+
+const packInternacional1 = new PackInternacional(duracion=21, 
+    precioBase= 200000,
+    beneficios = #{},
+    coordinador = angie,
+    destino = "uruguay",
+    cantidadDeEscalas=0,
+    esInteres=true)
+
+    test"un pack nacional sin beneficios vigentes devuelve el mismo precio base"{
+        assert.equals(100000, packNacional1.costoFinal())
+    }
+
+    test"prueba de error en asignar rol invalido"{
+        assert.throwsExceptionWithMessage("Rol invalido", {pepe.cambiarRol(otro)})
+
+    }
+
+    test"un pack nacional con 2 beneficios vigentes suma correctamente sus costos al precio base"{
+        assert.equals(130000, packNacional2.costoFinal())
+
+    }
+
+
+    test"un pack internacional sin beneficios vigentes devuelve el mismo precio base"{
+        assert.equals(240000, packInternacional1.costoFinal())
+    }
+
+
+    test "un pack nacional de mas de 10 días y coordinador altamente calificado es premium"{
+        assert.that(packNacional2.esPremium())
+    }
+
+     test "un pack nacional que no cumple TODAS estas condiciones: mas de 10 días y coordinador altamente calificado NO es premium"{
+        assert.notThat(packNacional1.esPremium())
+    }
+
+    test "un pack internacional de mas de 20 días, que no tiene escalas y el lugar es de interes es premium"{
+        assert.that(packInternacional1.esPremium())
+    }
+
+
+    test"un pack provincial tiene 4 actividades, visita 6 ciudades y tiene 3 beneficios vigentes es premium, por lo tanto tiene 5% de recargo"{
+        assert.equals(315000, packProvincial.costoFinal())
+
+        assert.that(packProvincial.esPremium())
+    }
+
+
+
+}
